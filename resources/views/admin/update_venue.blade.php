@@ -83,6 +83,14 @@
                             <input type="number" name="price" value = "{{ $data->price }}"">
                         </div>
 
+                        <div>
+                            @if ($data->venue_status == 'reject')
+                                <input type="hidden" name="venue_status" value = "pending">
+                            @else
+                                <input type="hidden" name="venue_status" value = "{{ $data->venue_status }}">
+                            @endif
+                        </div>
+
                         <div class="div_deg">
                             <input class="btn btn-primary" type="submit" value="Update venue">
                         </div>

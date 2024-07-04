@@ -8,6 +8,12 @@
     <base href="/public">
     <!-- Include CSS -->
     @include('admin.css')
+    <style>
+        .checked {
+            color: orange;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 
 <body>
@@ -50,31 +56,32 @@
 
             <!-- Reviews Section -->
             <div class="row mt-5">
-                <div class="col-md-8">
+                <div class="col-md-8"">
                     <h3>Reviews</h3>
                     @if ($reviews->isEmpty())
                         <p>No reviews yet.</p>
                     @else
-                        <ul class="list-group">
-                            @foreach ($reviews as $review)
-                                <li class="list-group-item">
-                                    <div>
-                                        <p class="mb-1"><strong>{{ $review->username }}</strong></p>
-                                        <p class="mb-1">Rating:
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                @if ($i <= $review->review_rating)
-                                                    <span class="fa fa-star checked"></span>
-                                                @else
-                                                    <span class="fa fa-star"></span>
-                                                @endif
-                                            @endfor
-                                        </p>
-                                        <p>{{ $review->review_feedback }}</p>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
+                        <ul class="list-group" ">
+                               @foreach ($reviews as $review)
+                            <li class="list-group-item" style="background-color: #313439">
+                                <div>
+                                    <p class="mb-1"><strong>{{ $review->username }}</strong></p>
+                                    <p class="mb-1">Rating:
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= $review->review_rating)
+                                                <span class="fa fa-star checked"></span>
+                                            @else
+                                                <span class="fa fa-star"></span>
+                                            @endif
+                                        @endfor
+                                    </p>
+                                    <p>{{ $review->review_feedback }}</p>
+                                </div>
+                            </li>
+                    @endforeach
+                    </ul>
                     @endif
+                    <br /><br />
                 </div>
             </div>
             <!-- End Reviews Section -->

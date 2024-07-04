@@ -28,6 +28,22 @@
     .btn-container a {
         margin: 5px;
     }
+
+    .status {
+        font-weight: bold;
+    }
+
+    .status.pending {
+        color: blue;
+    }
+
+    .status.approved {
+        color: green;
+    }
+
+    .status.reject {
+        color: red;
+    }
 </style>
 
 <body>
@@ -61,18 +77,65 @@
                                             <p>RM {{ $venue->price }} / day</p>
                                             <p>{{ $venue->venue_town }}</p>
                                             <p>{{ $venue->venue_city }}</p>
-                                            <p>Status : {{ $venue->venue_status }}</p>
+                                            <span>Status :</span>
+                                            <span class="status {{ $venue->venue_status }}">
+                                                {{ ucfirst($venue->venue_status) }}</span>
+                                            @if (Auth::user()->usertype == 'host' && $venue->venue_status == 'reject')
+                                                <p>Reason: {{ $venue->venue_reason }}</p>
+                                            @endif
                                             <div class="btn-container">
                                                 <a class="btn btn-primary"
                                                     href="{{ url('venue_admin_details', $venue->id) }}">Venue
                                                     Details</a>
                                                 @if (Auth::user()->usertype == 'admin')
-                                                    <a onclick="return confirm('Are you sure you want to approve this?')"
-                                                        class="btn btn-success"
-                                                        href="{{ url('approve_venue', $venue->id) }}">Approve</a>
-                                                    <a onclick="return confirm('Are you sure you want to reject this?')"
-                                                        class="btn btn-danger"
-                                                        href="{{ url('reject_venue', $venue->id) }}">Reject</a>
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-success"
+                                                            href="{{ url('approve_venue', $venue->id) }}">Approve</a>
+                                                        <a class="btn btn-danger reject-btn" data-toggle="modal"
+                                                            data-target="#rejectModal{{ $venue->id }}"
+                                                            style="color: white">
+                                                            Reject
+                                                        </a>
+                                                    </div>
+
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="rejectModal{{ $venue->id }}"
+                                                        tabindex="-1" role="dialog"
+                                                        aria-labelledby="rejectModalLabel{{ $venue->id }}"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <form action="{{ url('reject_venue', $venue->id) }}"
+                                                                    method="GET">
+                                                                    @csrf
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title"
+                                                                            id="rejectModalLabel{{ $venue->id }}">
+                                                                            Reason for Rejection</h5>
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="form-group">
+                                                                            <label for="rejection_reason">Enter
+                                                                                reason:</label>
+                                                                            <textarea class="form-control" id="rejection_reason" name="venue_reason" rows="3"
+                                                                                placeholder="Enter reason for rejection" required></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-dismiss="modal">Close</button>
+                                                                        <button type="submit"
+                                                                            class="btn btn-danger">Reject
+                                                                            venue</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 @else
                                                     <a onclick="return confirm('Are you sure you want to delete this?')"
                                                         class="btn btn-danger"
@@ -97,6 +160,15 @@
     <!-- Footer Section -->
     @include('admin.footer')
     <!-- Footer Section End -->
+
+    <script>
+        $('#rejectModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var venueId = button.data('venue-id'); // Extract info from data-* attributes
+            var modal = $(this);
+            modal.find('.modal-body #venue_id').val(venueId);
+        });
+    </script>
 </body>
 
 </html>

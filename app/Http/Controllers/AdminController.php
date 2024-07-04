@@ -146,6 +146,8 @@ class AdminController extends Controller
 
         $data->price = $request->price;
 
+        $data->venue_status = $request->venue_status;
+
         $data->save();
 
         return redirect()->route('admin.view_venue', ['id' => $data->id]);
