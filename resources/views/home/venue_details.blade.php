@@ -103,19 +103,18 @@
                         @csrf
                         <div>
                             <label>Name</label>
-                            <input type="text" name="name"
-                                @if (Auth::id()) value="{{ Auth::user()->name }}" @endif>
+                            <input type="text" name="name" value="{{ Auth::check() ? Auth::user()->name : '' }}">
                         </div>
-                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                        <input type="hidden" name="user_id" value="{{ Auth::check() ? Auth::user()->id : '' }}">
                         <div>
                             <label>Email</label>
                             <input type="text" name="email"
-                                @if (Auth::id()) value="{{ Auth::user()->email }}" @endif>
+                                value="{{ Auth::check() ? Auth::user()->email : '' }}">
                         </div>
                         <div>
                             <label>Phone</label>
                             <input type="text" name="phone"
-                                @if (Auth::id()) value="{{ Auth::user()->phone }}" @endif>
+                                value="{{ Auth::check() ? Auth::user()->phone : '' }}">
                         </div>
                         <div>
                             <label>Start Date</label>
@@ -152,13 +151,14 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title mb-4">Leave a Review</h5>
-                        <label>{{ Auth::user()->name }}</label>
+                        <label>{{ Auth::check() ? Auth::user()->name : 'Guest' }}</label>
                         <!-- Review Form -->
                         <form action="{{ url('add_review') }}" method="POST">
                             @csrf
-                            <input type="hidden" name="username" value="{{ Auth::user()->name }}">
+                            <input type="hidden" name="username"
+                                value="{{ Auth::check() ? Auth::user()->name : '' }}">
                             <input type="hidden" name="venue_id" value="{{ $venue->id }}">
-                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                            <input type="hidden" name="user_id" value="{{ Auth::check() ? Auth::user()->id : '' }}">
 
                             <!-- Rating stars -->
                             <div class="form-group">
