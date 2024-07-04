@@ -83,11 +83,13 @@
                     <h1 style="font-size: 40px!important">Book Venue</h1>
                     <div>
                         @if (session()->has('message'))
-                            <div class="alert alert-success">
-                                <button type="button" class="close" data-bs-dismiss="alert">X</button>
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 {{ session()->get('message') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
                             </div>
                         @endif
+
                     </div>
                     @if (Auth::check())
                         {{-- Booking Form --}}
@@ -224,8 +226,13 @@
 
     <!-- jQuery and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz4fnFO9gybBio8S9F6Yk4/2kgGaAl0XDzQ4K5fi8RXBnfZUR/+PpLfRa6" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-2xAldmXoPLQAMo9WvW10JJdFjEA81qGIO8I4Hhd0fKtPFneJ9c8DkF4L/WcUGbfh" crossorigin="anonymous">
+    </script>
+
     <script>
         // Function to update min date for end date input
         function updateEndDateMin() {
