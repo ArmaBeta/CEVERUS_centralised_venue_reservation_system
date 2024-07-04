@@ -89,59 +89,62 @@
                             </div>
                         @endif
                     </div>
-                    {{-- Booking Form --}}
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+                    @if (Auth::check())
+                        {{-- Booking Form --}}
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <form action="{{ url('add_booking', $venue->id) }}" method="POST" id="bookingForm">
+                            @csrf
+                            <div>
+                                <label>Name</label>
+                                <input type="text" name="name" value="{{ Auth::user()->name }}">
+                            </div>
+                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                            <div>
+                                <label>Email</label>
+                                <input type="text" name="email" value="{{ Auth::user()->email }}">
+                            </div>
+                            <div>
+                                <label>Phone</label>
+                                <input type="text" name="phone" value="{{ Auth::user()->phone }}">
+                            </div>
+                            <div>
+                                <label>Start Date</label>
+                                <input type="date" name="startDate" id="startDate"
+                                    onchange="updateEndDateMin(); calculateDaysAndTotal()">
+                            </div>
+                            <div>
+                                <label>End Date</label>
+                                <input type="date" name="endDate" id="endDate" onchange="calculateDaysAndTotal()">
+                            </div>
+                            <div>
+                                <label>Purpose of Booking</label>
+                                <textarea name="purpose_booking"></textarea>
+                            </div>
+                            <div>
+                                <label>No of Participants</label>
+                                <input type="number" name="no_participants">
+                            </div>
+                            <input type="hidden" name="booking_days" id="booking_days">
+                            <input type="hidden" name="booking_total" id="booking_total">
+                            <div style="padding-top: 20px">
+                                <input type="submit" class="btn btn-primary" value="Book Venue">
+                            </div>
+                        </form>
+                    @else
+                        <div class="alert alert-warning">
+                            <strong>To book a venue, you need to <a href="{{ route('login') }}">login</a> or <a
+                                    href="{{ route('register') }}">register</a>.</strong>
                         </div>
                     @endif
-                    <form action="{{ url('add_booking', $venue->id) }}" method="POST" id="bookingForm">
-                        @csrf
-                        <div>
-                            <label>Name</label>
-                            <input type="text" name="name" value="{{ Auth::check() ? Auth::user()->name : '' }}">
-                        </div>
-                        <input type="hidden" name="user_id" value="{{ Auth::check() ? Auth::user()->id : '' }}">
-                        <div>
-                            <label>Email</label>
-                            <input type="text" name="email"
-                                value="{{ Auth::check() ? Auth::user()->email : '' }}">
-                        </div>
-                        <div>
-                            <label>Phone</label>
-                            <input type="text" name="phone"
-                                value="{{ Auth::check() ? Auth::user()->phone : '' }}">
-                        </div>
-                        <div>
-                            <label>Start Date</label>
-                            <input type="date" name="startDate" id="startDate"
-                                onchange="updateEndDateMin(); calculateDaysAndTotal()">
-                        </div>
-                        <div>
-                            <label>End Date</label>
-                            <input type="date" name="endDate" id="endDate" onchange="calculateDaysAndTotal()">
-                        </div>
-                        <div>
-                            <label>Purpose of Booking</label>
-                            <textarea name="purpose_booking"></textarea>
-                        </div>
-                        <div>
-                            <label>No of Participants</label>
-                            <input type="number" name="no_participants">
-                        </div>
-                        <input type="hidden" name="booking_days" id="booking_days">
-                        <input type="hidden" name="booking_total" id="booking_total">
-                        <div style="padding-top: 20px">
-                            <input type="submit" class="btn btn-primary" value="Book Venue">
-                        </div>
-                    </form>
-
                 </div>
-
             </div>
         </div>
     </div>
@@ -174,7 +177,8 @@
                             <!-- Feedback/Review -->
                             <div class="form-group">
                                 <label for="feedback">Feedback/Review:</label>
-                                <textarea class="form-control" id="feedback" name="review_feedback" rows="3" placeholder="Enter your feedback"></textarea>
+                                <textarea class="form-control" id="feedback" name="review_feedback" rows="3"
+                                    placeholder="Enter your feedback"></textarea>
                             </div>
 
                             <!-- Submit button -->
@@ -217,7 +221,6 @@
             @endif
         </div>
     </div>
-
 
     <!-- jQuery and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
