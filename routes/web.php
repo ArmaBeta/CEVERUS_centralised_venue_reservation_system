@@ -68,3 +68,7 @@ route::post('/add_payment', [HomeController::class, 'add_payment']);
 route::post('/add_review', [HomeController::class, 'add_review']);
 
 route::get('/venue_admin_details/{id}', [AdminController::class, 'venue_admin_details'])->middleware(['auth', 'admin']);
+
+route::get('/view_users', [AdminController::class, 'view_users'])->middleware(['auth', 'admin']);
+
+route::get('/add_admin', [AdminController::class, 'add_admin'])->middleware(['auth', 'admin']);

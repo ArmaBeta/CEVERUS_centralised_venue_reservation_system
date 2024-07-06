@@ -249,4 +249,16 @@ class AdminController extends Controller
 
         return redirect()->back();
     }
+
+    public function view_users()
+    {
+        $data = User::all();
+
+        return view('admin.view_users', compact('data'));
+    }
+
+    public function add_admin()
+    {
+        return view('auth.add_admin');
+    }
 }

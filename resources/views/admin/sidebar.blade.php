@@ -28,6 +28,11 @@
                         <i class="icon-email"></i><span>Messages</span>
                     </a>
                 </li>
+                <li class="{{ Request::is('view_users') ? 'active' : '' }}">
+                    <a href="{{ url('view_users') }}">
+                        <i class="icon-user-1"></i><span>Users</span>
+                    </a>
+                </li>
             @elseif(Auth::user()->usertype == 'host')
                 <li>
                     <a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse">
