@@ -25,7 +25,7 @@ class AdminController extends Controller
     public function index()
     {
         $venues = Venue::withCount('bookings')->get();
-        return view('admin.index', compact('venues'));
+
 
         if (Auth::id()) {
             $usertype = Auth()->user()->usertype;
@@ -34,9 +34,9 @@ class AdminController extends Controller
                 $venue = Venue::all();
                 return view('home.index', compact('venue'));
             } else if ($usertype == 'admin') {
-                return view('admin.index');
+                return view('admin.index', compact('venues'));
             } else if ($usertype == 'host') {
-                return view('admin.index');
+                return view('admin.index', compact('venues'));
             } else {
                 return redirect()->back();
             }
@@ -45,7 +45,8 @@ class AdminController extends Controller
 
     public function home()
     {
-        return view('admin.index');
+        $venue = Venue::all();
+        return view('home.index', compact('venue'));
     }
 
     public function create_venue()
@@ -263,16 +264,26 @@ class AdminController extends Controller
         return view('auth.add_admin');
     }
 
-    public function add_admins(Request $request)
+    public function store_admin(Request $request)
     {
-        $data = new User;
+        // Validate input
+        $user = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'phone' => 'required|string|max:15',
+            'password' => 'required|string|min:8',
+            'usertype' => 'required|string|in:admin',
+        ]);
 
-        $data->venue_title = $request->title;
+        // Create new admin user
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->password = bcrypt($request->password);
+        $user->usertype = $request->usertype;
+        $user->save();
 
-
-
-        $data->save();
-
-        return redirect()->route('admin.view_users');
+        return redirect()->back()->with('success', 'Admin added successfully.');
     }
 }

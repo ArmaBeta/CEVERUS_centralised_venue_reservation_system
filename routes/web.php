@@ -72,3 +72,5 @@ route::get('/venue_admin_details/{id}', [AdminController::class, 'venue_admin_de
 route::get('/view_users', [AdminController::class, 'view_users'])->middleware(['auth', 'admin']);
 
 route::get('/add_admin', [AdminController::class, 'add_admin'])->middleware(['auth', 'admin']);
+
+route::post('/store_admin', [AdminController::class, 'store_admin'])->middleware(['auth', 'admin']);
