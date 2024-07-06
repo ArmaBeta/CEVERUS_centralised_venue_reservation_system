@@ -50,6 +50,7 @@
                                     <th>No of Participants</th>
                                     <th>Status</th>
                                     <th>Image</th>
+                                    <th>Payment Status</th>
                                     <th>Status Update</th>
                                 </tr>
                             </thead>
@@ -84,15 +85,14 @@
                                                     <span>N/A</span>
                                                 @endif
                                             </td>
+                                            <td>{{ $booking->payment_status }}</td>
                                             <td>
                                                 @if ($booking->booking_status != 'rejected' && $booking->booking_status != 'approved')
                                                     <div class="btn-group">
                                                         <a class="btn btn-success"
                                                             href="{{ url('approve_book', $booking->id) }}">Approve</a>
                                                         <button class="btn btn-danger reject-btn" data-toggle="modal"
-                                                            data-target="#rejectModal{{ $booking->id }}">
-                                                            Reject
-                                                        </button>
+                                                            data-target="#rejectModal{{ $booking->id }}">Reject</button>
                                                     </div>
 
                                                     <!-- Modal -->

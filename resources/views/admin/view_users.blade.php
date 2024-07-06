@@ -23,12 +23,16 @@
                 <div class="block margin-bottom-sm">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h2 class="title mb-0"><strong>Bookings</strong></h2>
-                        <a href="{{ url('add_admin') }}" type="button" class="btn btn-light filter-btn" ">Add Admin</a>
+
                         <div class="btn-group">
-                            <button type="button" class="btn btn-light filter-btn" data-status="all">All</button>
-                            <button type="button" class="btn btn-light filter-btn">Users</button>
-                            <button type="button" class="btn btn-light filter-btn">Host</button>
-                            <button type="button" class="btn btn-light filter-btn">Admin</button>
+                            @if (Auth::user()->name == 'Admin')
+                                <a href="{{ url('add_admin') }}" type="button" class="btn btn-light filter-btn" ">Add Admin</a>
+ @endif
+                                    <button type="button" class="btn btn-light filter-btn"
+                                        data-status="all">All</button>
+                                    <button type="button" class="btn btn-light filter-btn">Users</button>
+                                    <button type="button" class="btn btn-light filter-btn">Host</button>
+                                    <button type="button" class="btn btn-light filter-btn">Admin</button>
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -41,21 +45,31 @@
                                     <th>Email</th>
                                     <th>Phone</th>
                                     <th>Usertype</th>
+                                    <th>
+                                        @if (Auth::user()->name == 'Admin')
+                                            Action
+                                        @endif
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                  @foreach ($data as $data)
-                            <tr class="booking-row">
-                                <th scope="row">{{ $loop->iteration }}.</th>
-                                <td>{{ $data->name }}</td>
-                                <td>{{ $data->email }}</td>
-                                <td>{{ $data->usertype }}</td>
-                                <td>{{ $data->phone }}</td>
-                                <td>{{ $data->Usertype }}</td>
-                            </tr>
-                            @endforeach
-                            </tbody>
-                            </table>
+                                @foreach ($data as $user)
+                                    <tr class="booking-row">
+                                        <th scope="row">{{ $loop->iteration }}.</th>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->phone }}</td>
+                                        <td>{{ $user->usertype }}</td>
+                                        <td>
+                                            @if ($user->usertype == 'admin' && Auth::user()->name == 'Admin')
+                                                <a onclick="return confirm('Are you sure you want to delete this?')"
+                                                    class="btn btn-danger"
+                                                    href="{{ url('delete_admin', $user->id) }}">Delete</a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                        </table>
                     </div>
                 </div>
             </div>

@@ -20,4 +20,9 @@ class Payment extends Model
         'payment_expiry_date',
         'payment_cvv',
     ];
+
+    public function booking()
+    {
+        return $this->belongsTo(Booking::class);
+    }
 }

@@ -16,6 +16,8 @@ use App\Models\Contact;
 
 use App\Models\Review;
 
+use App\Models\Payment;
+
 use App\Notifications\SendEmailNotification;
 
 use Illuminate\Support\Facades\Notification;
@@ -24,24 +26,92 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $venues = Venue::withCount('bookings')->get();
+        $user = Auth::user();
+        $usertype = $user->usertype;
 
+        if ($usertype == 'user') {
+            $venue = Venue::all();
+            return view('home.index', compact('venue'));
+        } elseif ($usertype == 'admin') {
+            // Count total bookings
+            $totalBookings = Booking::count();
 
-        if (Auth::id()) {
-            $usertype = Auth()->user()->usertype;
+            // Count users based on usertype
+            $totalUsers = User::where('usertype', 'user')->count();
+            $totalHosts = User::where('usertype', 'host')->count();
+            $totalAdmins = User::where('usertype', 'admin')->count();
 
-            if ($usertype == 'user') {
-                $venue = Venue::all();
-                return view('home.index', compact('venue'));
-            } else if ($usertype == 'admin') {
-                return view('admin.index', compact('venues'));
-            } else if ($usertype == 'host') {
-                return view('admin.index', compact('venues'));
-            } else {
-                return redirect()->back();
-            }
+            // Count total venues
+            $totalVenues = Venue::count();
+
+            // Count venues by status
+            $totalApprovedVenues = Venue::where('venue_status', 'approved')->count();
+            $totalRejectedVenues = Venue::where('venue_status', 'reject')->count();
+            $totalPendingVenues = $totalVenues - ($totalApprovedVenues + $totalRejectedVenues);
+
+            // Count bookings by status
+            $totalApprovedBookings = Booking::where('booking_status', 'approved')->count();
+            $totalRejectedBookings = Booking::where('booking_status', 'rejected')->count();
+            $totalPendingBookings = $totalBookings - ($totalApprovedBookings + $totalRejectedBookings);
+
+            // Fetch venues with bookings count
+            $venues = Venue::withCount('bookings')->get();
+
+            return view('admin.index', compact(
+                'venues',
+                'totalBookings',
+                'totalUsers',
+                'totalHosts',
+                'totalAdmins',
+                'totalVenues',
+                'totalApprovedVenues',
+                'totalRejectedVenues',
+                'totalPendingVenues',
+                'totalApprovedBookings',
+                'totalRejectedBookings',
+                'totalPendingBookings'
+            ));
+        } elseif ($usertype == 'host') {
+            // Fetch only the venues added by the host
+            $venues = Venue::where('user_id', $user->id)->withCount('bookings')->get();
+
+            // Count total bookings for the host's venues
+            $totalBookings = Booking::whereIn('venue_id', $venues->pluck('id'))->count();
+
+            // Count bookings by status for the host's venues
+            $totalApprovedBookings = Booking::whereIn('venue_id', $venues->pluck('id'))
+                ->where('booking_status', 'approved')
+                ->count();
+            $totalRejectedBookings = Booking::whereIn('venue_id', $venues->pluck('id'))
+                ->where('booking_status', 'rejected')
+                ->count();
+            $totalPendingBookings = $totalBookings - ($totalApprovedBookings + $totalRejectedBookings);
+
+            // Count total venues for the host
+            $totalVenues = $venues->count();
+
+            // Count venues by status for the host
+            $totalApprovedVenues = $venues->where('venue_status', 'approved')->count();
+            $totalRejectedVenues = $venues->where('venue_status', 'reject')->count();
+            $totalPendingVenues = $totalVenues - ($totalApprovedVenues + $totalRejectedVenues);
+
+            return view('admin.index', compact(
+                'venues',
+                'totalBookings',
+                'totalApprovedBookings',
+                'totalRejectedBookings',
+                'totalPendingBookings',
+                'totalVenues',
+                'totalApprovedVenues',
+                'totalRejectedVenues',
+                'totalPendingVenues'
+            ));
+        } else {
+            return redirect()->back();
         }
     }
+
+
 
     public function home()
     {
@@ -157,9 +227,16 @@ class AdminController extends Controller
 
     public function bookings()
     {
-        $data = Booking::all();
+        $data = Booking::with('venue')->get();
+
+        foreach ($data as $booking) {
+            $payment = \App\Models\Payment::where('booking_id', $booking->id)->first();
+            $booking->setAttribute('payment_status', $payment ? 'Paid' : 'None');
+        }
+
         return view('admin.booking', compact('data'));
     }
+
 
     public function approve_book($id)
     {
@@ -285,5 +362,14 @@ class AdminController extends Controller
         $user->save();
 
         return redirect()->back()->with('success', 'Admin added successfully.');
+    }
+
+    public function delete_admin($id)
+    {
+        $data = User::find($id);
+
+        $data->delete();
+
+        return redirect()->back();
     }
 }
