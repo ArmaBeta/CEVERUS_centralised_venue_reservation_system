@@ -24,6 +24,9 @@ class AdminController extends Controller
 {
     public function index()
     {
+        $venues = Venue::withCount('bookings')->get();
+        return view('admin.index', compact('venues'));
+
         if (Auth::id()) {
             $usertype = Auth()->user()->usertype;
 
@@ -42,9 +45,7 @@ class AdminController extends Controller
 
     public function home()
     {
-
-        $venue = Venue::all();
-        return view('home.index', compact('venue'));
+        return view('admin.index');
     }
 
     public function create_venue()
@@ -260,5 +261,18 @@ class AdminController extends Controller
     public function add_admin()
     {
         return view('auth.add_admin');
+    }
+
+    public function add_admins(Request $request)
+    {
+        $data = new User;
+
+        $data->venue_title = $request->title;
+
+
+
+        $data->save();
+
+        return redirect()->route('admin.view_users');
     }
 }

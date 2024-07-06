@@ -23,4 +23,9 @@ class Venue extends Model
         'user_id',
         'venue_status',
     ];
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

@@ -3,7 +3,9 @@
 
 <head>
     @include('admin.css')
+    <style>
 
+    </style>
 </head>
 
 <body>
@@ -16,33 +18,32 @@
     <div class="page-content">
         <div class="page-header">
             <div class="container-fluid">
-                <div class="row">
-                    @foreach ($venues as $venue)
-                        <div class="col-lg-4 col-md-6 col-sm-12">
+                <h2 class="title">Booking Statistics</h2>
+                @foreach ($venues as $venue)
+                    @if ($venue->venue_status == 'approved')
+                        <div class="col-md-3 col-sm-6">
                             <div class="statistic-block block">
                                 <div class="progress-details d-flex align-items-end justify-content-between">
                                     <div class="title">
-                                        <div class="icon"><i class="icon-home"></i></div>
-                                        <strong>{{ $venue->venue_title }}
-
-                                            <a class="icon-info"
-                                                href="{{ url('venue_admin_details', $venue->id) }}"></a>
-
-                                        </strong>
+                                        <div class="icon"><i class="icon-user-1"></i></div>
+                                        <strong>{{ $venue->venue_title }}</strong>
                                     </div>
                                     <div class="number dashtext-1">{{ $venue->bookings_count }}</div>
                                 </div>
                                 <div class="progress progress-template">
-                                    <div role="progressbar"
-                                        style="width: {{ ($venue->bookings_count / max($venues->pluck('bookings_count')->max(), 1)) * 100 }}%"
-                                        aria-valuenow="{{ $venue->bookings_count }}" aria-valuemin="0"
-                                        aria-valuemax="{{ $venues->pluck('bookings_count')->max() }}"
+                                    @php
+                                        $totalBookings = $venues->sum('bookings_count');
+                                        $percentage =
+                                            $totalBookings > 0 ? ($venue->bookings_count / $totalBookings) * 100 : 0;
+                                    @endphp
+                                    <div role="progressbar" style="width: {{ $percentage }}%"
+                                        aria-valuenow="{{ $percentage }}" aria-valuemin="0" aria-valuemax="100"
                                         class="progress-bar progress-bar-template dashbg-1"></div>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                </div>
+                    @endif
+                @endforeach
             </div>
         </div>
     </div>

@@ -7,9 +7,9 @@
         <!-- Sidebar Navigation Menus-->
         <span class="heading">Main</span>
         <ul class="list-unstyled">
-            <li class="{{ Request::is('index') ? 'active' : '' }}">
-                <a href="{{ url('index') }}">
-                    <i class="icon-info"></i><span>All info</span>
+            <li class="{{ Request::is('home') ? 'active' : '' }}">
+                <a href="{{ url('home') }}">
+                    <i class="icon-info"></i><span>Dashboard</span>
                 </a>
             </li>
             @if (Auth::user()->usertype == 'admin')
@@ -23,6 +23,7 @@
                         </li>
                     </ul>
                 </li>
+
                 <li class="{{ Request::is('all_messages') ? 'active' : '' }}">
                     <a href="{{ url('all_messages') }}">
                         <i class="icon-email"></i><span>Messages</span>
