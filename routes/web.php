@@ -76,3 +76,7 @@ route::get('/add_admin', [AdminController::class, 'add_admin'])->middleware(['au
 route::post('/store_admin', [AdminController::class, 'store_admin'])->middleware(['auth', 'admin']);
 
 route::get('/delete_admin/{id}', [AdminController::class, 'delete_admin'])->middleware(['auth', 'admin']);
+
+Route::get('/payment_details/{id}', [AdminController::class, 'payment_details'])->middleware(['auth', 'admin']);
+
+Route::get('/booking_details/{id}', [AdminController::class, 'booking_details'])->middleware(['auth', 'admin']);

@@ -11,6 +11,9 @@
 </head>
 
 <body>
+    @php
+        $data = $data->sortByDesc('created_at');
+    @endphp
     {{-- Header Section --}}
     @include('admin.header')
     {{-- Header Section End --}}
@@ -40,16 +43,14 @@
                                 <tr style="border: 3px solid">
                                     <th>No.</th>
                                     <th>Venue Title</th>
-                                    <th>Price</th>
+                                    <th>Total</th>
                                     <th>Username</th>
                                     <th>Email</th>
                                     <th>Phone no.</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Purpose of booking</th>
-                                    <th>No of Participants</th>
+
                                     <th>Status</th>
                                     <th>Image</th>
+                                    <th>Booking Details</th>
                                     <th>Payment Status</th>
                                     <th>Status Update</th>
                                 </tr>
@@ -60,14 +61,11 @@
                                         <tr class="booking-row" data-status="{{ $booking->booking_status }}">
                                             <th scope="row">{{ $loop->iteration }}.</th>
                                             <td>{{ optional($booking->venue)->venue_title ?? 'N/A' }}</td>
-                                            <td>{{ optional($booking->venue)->price ?? 'N/A' }}</td>
+                                            <td>RM {{ $booking->booking_total }}</td>
                                             <td>{{ $booking->booking_name }}</td>
                                             <td>{{ $booking->booking_email }}</td>
                                             <td>{{ $booking->booking_phone }}</td>
-                                            <td>{{ $booking->booking_start_date }}</td>
-                                            <td>{{ $booking->booking_end_date }}</td>
-                                            <td>{{ $booking->booking_purpose }}</td>
-                                            <td>{{ $booking->booking_no_participants }}</td>
+
                                             <td>
                                                 @if ($booking->booking_status == 'approved')
                                                     <span style="color: greenyellow;">Approved</span>
@@ -85,7 +83,19 @@
                                                     <span>N/A</span>
                                                 @endif
                                             </td>
-                                            <td>{{ $booking->payment_status }}</td>
+
+                                            <td>
+                                                <a class="btn btn-primary icon-info"
+                                                    href="{{ url('booking_details', $booking->id) }}"></a>
+                                            </td>
+                                            <td>
+                                                @if ($booking->payment_status == 'Paid')
+                                                    <a
+                                                        href="{{ url('payment_details', $booking->id) }}">{{ $booking->payment_status }}</a>
+                                                @else
+                                                    {{ $booking->payment_status }}
+                                                @endif
+                                            </td>
                                             <td>
                                                 @if ($booking->booking_status != 'rejected' && $booking->booking_status != 'approved')
                                                     <div class="btn-group">
@@ -135,7 +145,7 @@
                                                     </div>
                                                 @elseif ($booking->booking_status == 'rejected' || $booking->booking_status == 'approved')
                                                     <div class="btn-group">
-                                                        <a class="btn btn-primary" style="color: white">Status
+                                                        <a class="btn " style="color: white">Status
                                                             Updated</a>
                                                     </div>
                                                 @endif

@@ -62,7 +62,7 @@
                         <p>No reviews yet.</p>
                     @else
                         <ul class="list-group" ">
-                               @foreach ($reviews as $review)
+                                @foreach ($reviews as $review)
                             <li class="list-group-item" style="background-color: #313439">
                                 <div>
                                     <p class="mb-1"><strong>{{ $review->username }}</strong></p>
@@ -82,6 +82,7 @@
                     </ul>
                     @endif
                     <br /><br />
+                    <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
                 </div>
             </div>
             <!-- End Reviews Section -->

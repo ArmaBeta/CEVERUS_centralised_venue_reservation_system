@@ -26,13 +26,13 @@
 
                         <div class="btn-group">
                             @if (Auth::user()->name == 'Admin')
-                                <a href="{{ url('add_admin') }}" type="button" class="btn btn-light filter-btn" ">Add Admin</a>
- @endif
-                                    <button type="button" class="btn btn-light filter-btn"
-                                        data-status="all">All</button>
-                                    <button type="button" class="btn btn-light filter-btn">Users</button>
-                                    <button type="button" class="btn btn-light filter-btn">Host</button>
-                                    <button type="button" class="btn btn-light filter-btn">Admin</button>
+                                <a href="{{ url('add_admin') }}" type="button" class="btn btn-light filter-btn">Add
+                                    Admin</a>
+                            @endif
+                            <button type="button" class="btn btn-light filter-btn" data-status="all">All</button>
+                            <button type="button" class="btn btn-light filter-btn" data-status="user">Users</button>
+                            <button type="button" class="btn btn-light filter-btn" data-status="host">Hosts</button>
+                            <button type="button" class="btn btn-light filter-btn" data-status="admin">Admins</button>
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -54,7 +54,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($data as $user)
-                                    <tr class="booking-row">
+                                    <tr class="booking-row" data-role="{{ $user->usertype }}">
                                         <th scope="row">{{ $loop->iteration }}.</th>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
@@ -69,6 +69,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -83,6 +84,21 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script>
+        // Filter Functionality
+        $(document).ready(function() {
+            $('.filter-btn').click(function() {
+                var status = $(this).data('status');
+
+                if (status === 'all') {
+                    $('.booking-row').show();
+                } else {
+                    $('.booking-row').hide();
+                    $('.booking-row[data-role="' + status + '"]').show();
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

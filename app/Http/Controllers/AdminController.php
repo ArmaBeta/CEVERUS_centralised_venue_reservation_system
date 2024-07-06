@@ -372,4 +372,24 @@ class AdminController extends Controller
 
         return redirect()->back();
     }
+
+    public function payment_details($id)
+    {
+        $payment = Payment::where('booking_id', $id)->first(); // Fetch the payment based on booking ID
+        $booking = Booking::find($id); // Fetch the booking based on booking ID
+
+        if (!$payment) {
+            // Handle the case where no payment is found for the given booking ID
+            return redirect()->back()->with('error', 'No payment details found for this booking.');
+        }
+
+        return view('admin.payment_details', compact('payment', 'booking'));
+    }
+
+    public function booking_details($id)
+    {
+        $booking = Booking::with('venue')->findOrFail($id); // Fetch the booking based on the ID with the related venue
+
+        return view('admin.booking_details', compact('booking'));
+    }
 }
