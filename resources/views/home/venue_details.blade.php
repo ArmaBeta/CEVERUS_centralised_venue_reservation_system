@@ -173,8 +173,14 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="bookedDatesDropdown">
                     <div class="row">
+                        @php
+                            $hasBookings = false;
+                        @endphp
                         @foreach ($bookings as $booking)
                             @if ($booking->booking_status == 'approved' || $booking->booking_status == 'pending')
+                                @php
+                                    $hasBookings = true;
+                                @endphp
                                 <div class="col-md-4 mb-4">
                                     <div class="card">
                                         <div class="card-body">
@@ -189,6 +195,11 @@
                                 </div>
                             @endif
                         @endforeach
+                        @if (!$hasBookings)
+                            <div class="col-12 text-center">
+                                <p class="card-text">No Bookings Made</p>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
