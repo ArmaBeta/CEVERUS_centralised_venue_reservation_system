@@ -419,4 +419,33 @@ class AdminController extends Controller
 
         return view('admin.booking_details', compact('booking'));
     }
+
+    public function search_venues(Request $request)
+    {
+        $query = $request->input('query');
+        $data = Venue::where('venue_title', 'LIKE', "%{$query}%")
+            // ->orWhere('venue_town', 'LIKE', "%{$query}%")
+            // ->orWhere('venue_city', 'LIKE', "%{$query}%")
+            ->get();
+
+        return view('admin.view_venue', compact('data'));
+    }
+
+    public function search_bookings(Request $request)
+    {
+        $query = $request->input('query');
+        $data = Booking::where('booking_name', 'LIKE', "%{$query}%")->get();
+
+        return view('admin.booking', compact('data'));
+    }
+
+    public function search_users(Request $request)
+    {
+        $query = $request->input('query');
+
+        // Perform search query
+        $data = User::where('name', 'LIKE', "%{$query}%")->get();
+
+        return view('admin.view_users', compact('data'));
+    }
 }

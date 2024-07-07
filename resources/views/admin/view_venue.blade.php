@@ -54,9 +54,32 @@
     .filter-btn {
         margin-left: 5px;
     }
+
+    .search-form {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+    }
+
+    .search-form input {
+        flex: 1 0 50%;
+        border-radius: 20px 0 0 20px;
+        padding: 10px;
+        border: 1px solid #ced4da;
+    }
+
+    .search-form button {
+        border-radius: 0 20px 20px 0;
+        padding: 10px 20px;
+        border: 1px solid #ced4da;
+        border-left: none;
+    }
 </style>
 
 <body>
+    @php
+        $data = $data->sortByDesc('created_at');
+    @endphp
     <!-- Header Section -->
     @include('admin.header')
     <!-- Header Section End -->
@@ -70,21 +93,25 @@
         <div class="page-header">
             <div class="container-fluid">
                 <!-- Filter Buttons -->
-                <div class="block margin-bottom-sm">
+                <div class="">
                     <div class="title"><strong>Your Venues</strong>
-                        <div class="filter-btn-group">
-                            <button type="button" class="btn btn-light filter-btn" data-status="all">All</button>
-                            <button type="button" class="btn btn-light filter-btn"
-                                data-status="pending">Pending</button>
-                            <button type="button" class="btn btn-light filter-btn"
-                                data-status="approved">Approved</button>
-                            <button type="button" class="btn btn-light filter-btn"
-                                data-status="reject">Rejected</button>
-                        </div>
                     </div>
                 </div>
                 <!-- Filter Buttons End -->
-
+                <!-- Search Form -->
+                <div class="">
+                    <form action="{{ url('search_venues') }}" method="GET" class="form-inline mb-6">
+                        <input type="text" name="query" class="form-control mr-2" placeholder="Search venues" />
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                </div>
+                <!-- Search Form End -->
+                <div class="filter-btn-group">
+                    <button type="button" class="btn btn-light filter-btn" data-status="all">All</button>
+                    <button type="button" class="btn btn-light filter-btn" data-status="pending">Pending</button>
+                    <button type="button" class="btn btn-light filter-btn" data-status="approved">Approved</button>
+                    <button type="button" class="btn btn-light filter-btn" data-status="reject">Rejected</button>
+                </div>
                 <div class="row">
                     @foreach ($data as $venue)
                         @if (Auth::user()->usertype == 'admin' || $venue->user_id == Auth::user()->id)

@@ -35,6 +35,16 @@
                             <button type="button" class="btn btn-light filter-btn"
                                 data-status="rejected">Rejected</button>
                         </div>
+                        <form action="{{ route('admin.search_bookings') }}" method="GET" class="mb-3">
+                            <div class="input-group">
+                                <input type="text" name="query" class="form-control" placeholder="Search by name"
+                                    aria-label="Search" aria-describedby="search-button">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="submit"
+                                        id="search-button">Search</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped bookings-table"

@@ -37,7 +37,7 @@
             <div class="row mb-4">
                 <div class="col-md-12 text-center">
                     <div class="titlepage">
-                        <h2>Our Venue</h2>
+                        <h2>Our Venues</h2>
                     </div>
                 </div>
             </div>
@@ -53,7 +53,6 @@
                             </div>
                             <div class="bed_room p-3">
                                 <h3 class="text-center">{{ $venue->venue_title }}</h3>
-                                <p>{!! Str::limit($venue->description, 100) !!}</p>
                                 <div class="text-center">
                                     <a class="btn btn-primary" href="{{ url('venue_details', $venue->id) }}">Venue
                                         Details</a>

@@ -94,12 +94,22 @@ class HomeController extends Controller
         return redirect()->back()->with('message', 'Message Sent Successfully');
     }
 
-    public function all_venues()
+    public function all_venues(Request $request)
     {
-        $venue = Venue::all();
+        $search = $request->input('search');
+
+        if ($search) {
+            $venue = Venue::where('venue_title', 'like', "%{$search}%")
+                ->orWhere('venue_town', 'like', "%{$search}%")
+                ->orWhere('venue_city', 'like', "%{$search}%")
+                ->get();
+        } else {
+            $venue = Venue::all();
+        }
 
         return view('home.all_venues', compact('venue'));
     }
+
 
 
     public function contact_us()

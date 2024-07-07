@@ -80,3 +80,11 @@ route::get('/delete_admin/{id}', [AdminController::class, 'delete_admin'])->midd
 Route::get('/payment_details/{id}', [AdminController::class, 'payment_details'])->middleware(['auth', 'admin']);
 
 Route::get('/booking_details/{id}', [AdminController::class, 'booking_details'])->middleware(['auth', 'admin']);
+
+Route::get('/all_venues', [HomeController::class, 'all_venues']);
+
+Route::get('/search_venues', [AdminController::class, 'search_venues'])->middleware(['auth', 'admin']);
+
+Route::get('/search-bookings', [AdminController::class, 'search_bookings'])->name('admin.search_bookings')->middleware(['auth', 'admin']);
+
+Route::get('/search_users', [AdminController::class, 'search_users'])->middleware(['auth', 'admin']);
