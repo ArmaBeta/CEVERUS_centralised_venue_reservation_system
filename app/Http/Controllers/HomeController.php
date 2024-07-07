@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\Venue;
-
 use App\Models\Booking;
-
+use Illuminate\Support\Facades\Notification;
 use App\Models\Contact;
 use App\Models\Payment;
 use App\Models\Review;
+use App\Models\User;
+use App\Notifications\VenueBooked;
+use App\Notifications\BookingPaidNotification;
 
 class HomeController extends Controller
 {
@@ -37,7 +38,6 @@ class HomeController extends Controller
         $data = new Booking;
 
         $data->venue_id = $id;
-
         $data->booking_name = $request->name;
         $data->booking_email = $request->email;
         $data->booking_phone = $request->phone;
@@ -55,18 +55,24 @@ class HomeController extends Controller
         if ($isBooked) {
             return redirect()->back()->with('message', 'Venue is not available, Please select a different date');
         } else {
-            $data->booking_start_date = $request->startDate;
-            $data->booking_end_date = $request->endDate;
+            $data->booking_start_date = $startDate;
+            $data->booking_end_date = $endDate;
         }
 
         $data->booking_purpose = $request->purpose_booking;
         $data->booking_no_participants = $request->no_participants;
-        $data->booking_total  = $request->booking_total;
-        $data->booking_days  = $request->booking_days;
+        $data->booking_total = $request->booking_total;
+        $data->booking_days = $request->booking_days;
 
-        // Payment section
-
+        // Save the booking
         $data->save();
+
+        // Get the venue and the host's email
+        $venue = Venue::findOrFail($id);
+        $host = User::findOrFail($venue->user_id);
+
+        // Send email notification to the host
+        Notification::route('mail', $host->email)->notify(new VenueBooked($venue, $request->user(), $data));
 
         return redirect()->back()->with('message', 'Venue Booked Successfully');
     }
@@ -133,6 +139,14 @@ class HomeController extends Controller
         $data->payment_status = $request->payment_status;
 
         $data->save();
+        $booking = Booking::findOrFail($request->booking_id);
+
+        // Get the venue and the host's email
+        $venue = Venue::findOrFail($booking->venue_id);
+        $host = User::findOrFail($venue->user_id);
+
+        // Send booking paid notification to the host
+        $host->notify(new BookingPaidNotification($booking));
 
         return redirect()->back();
     }

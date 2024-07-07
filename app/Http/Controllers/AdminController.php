@@ -20,6 +20,12 @@ use App\Models\Payment;
 
 use App\Notifications\SendEmailNotification;
 
+use App\Notifications\BookingStatusNotification;
+
+use App\Notifications\VenueCreatedNotification;
+
+use App\Notifications\VenueStatusNotification;
+
 use Illuminate\Support\Facades\Notification;
 
 class AdminController extends Controller
@@ -161,6 +167,10 @@ class AdminController extends Controller
 
         $data->save();
 
+        $adminEmail = 'armansyahin@gmail.com';
+        Notification::route('mail', $adminEmail)
+            ->notify(new VenueCreatedNotification($data));
+
         return redirect()->back();
     }
 
@@ -237,14 +247,16 @@ class AdminController extends Controller
         return view('admin.booking', compact('data'));
     }
 
-
     public function approve_book($id)
     {
         $booking = Booking::find($id);
 
         $booking->booking_status = 'approved';
-
         $booking->save();
+
+        // Send email notification
+        Notification::route('mail', $booking->booking_email)
+            ->notify(new BookingStatusNotification($booking, 'approved'));
 
         return redirect()->back();
     }
@@ -254,13 +266,16 @@ class AdminController extends Controller
         $booking = Booking::find($id);
 
         $booking->booking_status = 'rejected';
-
         $booking->booking_reason = $request->booking_reason;
-
         $booking->save();
+
+        // Send email notification
+        Notification::route('mail', $booking->booking_email)
+            ->notify(new BookingStatusNotification($booking, 'rejected'));
 
         return redirect()->back();
     }
+
 
     public function all_messages()
     {
@@ -310,8 +325,13 @@ class AdminController extends Controller
         $venue = Venue::find($id);
 
         $venue->venue_status = 'approved';
-
         $venue->save();
+
+        // Send email notification to the host
+        $host = User::find($venue->user_id);
+        if ($host) {
+            $host->notify(new VenueStatusNotification($venue, 'approved'));
+        }
 
         return redirect()->back();
     }
@@ -321,13 +341,20 @@ class AdminController extends Controller
         $venue = Venue::find($id);
 
         $venue->venue_status = 'reject';
-
         $venue->venue_reason = $request->venue_reason;
-
         $venue->save();
+
+        // Send email notification to the host
+        $host = User::find($venue->user_id);
+        if ($host) {
+            $host->notify(new VenueStatusNotification($venue, 'rejected'));
+        }
 
         return redirect()->back();
     }
+
+
+
 
     public function view_users()
     {
