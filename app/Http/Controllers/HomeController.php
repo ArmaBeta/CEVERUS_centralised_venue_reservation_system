@@ -20,8 +20,9 @@ class HomeController extends Controller
     {
         $venue = Venue::find($id);
         $reviews = Review::where('venue_id', $id)->get();
+        $bookings = Booking::where('venue_id', $id)->get();
 
-        return view('home.venue_details', compact('venue', 'reviews'));
+        return view('home.venue_details', compact('venue', 'reviews', 'bookings'));
     }
 
     public function add_booking(Request $request, $id)
@@ -169,15 +170,5 @@ class HomeController extends Controller
         $data->save();
 
         return redirect()->back();
-    }
-    public function getBookedDates($venue_id)
-    {
-        $bookedDates = DB::table('bookings')
-            ->where('venue_id', $venue_id)
-            ->whereIn('booking_status', ['approved', 'pending'])
-            ->pluck('booking_start_date')
-            ->toArray();
-
-        return response()->json(['bookedDates' => $bookedDates]);
     }
 }

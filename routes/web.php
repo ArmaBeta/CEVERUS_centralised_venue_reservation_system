@@ -80,5 +80,3 @@ route::get('/delete_admin/{id}', [AdminController::class, 'delete_admin'])->midd
 Route::get('/payment_details/{id}', [AdminController::class, 'payment_details'])->middleware(['auth', 'admin']);
 
 Route::get('/booking_details/{id}', [AdminController::class, 'booking_details'])->middleware(['auth', 'admin']);
-
-Route::get('getBookedDates/{venue_id}', [HomeController::class, 'getBookedDates'])->name('getBookedDates');

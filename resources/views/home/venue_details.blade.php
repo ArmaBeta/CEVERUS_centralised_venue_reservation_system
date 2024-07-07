@@ -32,6 +32,24 @@
             color: #f39c12;
             /* change color on hover and when checked */
         }
+
+        .dropdown-menu {
+            width: 100%;
+            /* Adjust the width as needed */
+            max-height: 500px;
+            /* Adjust the height as needed */
+            overflow-y: auto;
+            /* Add scroll if content exceeds the height */
+        }
+
+        .dropdown-menu .row {
+            margin: 0;
+        }
+
+        .dropdown-menu .col-md-4 {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
     </style>
 </head>
 
@@ -148,6 +166,32 @@
                     @endif
                 </div>
             </div>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="bookedDatesDropdown"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Booked Dates
+                </button>
+                <div class="dropdown-menu" aria-labelledby="bookedDatesDropdown">
+                    <div class="row">
+                        @foreach ($bookings as $booking)
+                            @if ($booking->booking_status == 'approved' || $booking->booking_status == 'pending')
+                                <div class="col-md-4 mb-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <p class="card-text">
+                                                <strong>Start Date:</strong>
+                                                {{ date('F j, Y', strtotime($booking->booking_start_date)) }} <br>
+                                                <strong>End Date:</strong>
+                                                {{ date('F j, Y', strtotime($booking->booking_end_date)) }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="container mt-5">
@@ -163,7 +207,8 @@
                             <input type="hidden" name="username"
                                 value="{{ Auth::check() ? Auth::user()->name : '' }}">
                             <input type="hidden" name="venue_id" value="{{ $venue->id }}">
-                            <input type="hidden" name="user_id" value="{{ Auth::check() ? Auth::user()->id : '' }}">
+                            <input type="hidden" name="user_id"
+                                value="{{ Auth::check() ? Auth::user()->id : '' }}">
 
                             <!-- Rating stars -->
                             <div class="form-group">
