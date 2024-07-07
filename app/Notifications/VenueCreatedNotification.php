@@ -29,7 +29,8 @@ class VenueCreatedNotification extends Notification
         return (new MailMessage)
             ->subject('New Venue Created')
             ->line('A new venue has been added to the system.')
-            ->line('Thank you for using our application!');
+            ->line('Thank you for using our application!')
+            ->salutation('Regards, CEVERUS');
     }
 
     public function toArray($notifiable)

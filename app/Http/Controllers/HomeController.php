@@ -12,6 +12,7 @@ use App\Models\Review;
 use App\Models\User;
 use App\Notifications\VenueBooked;
 use App\Notifications\BookingPaidNotification;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -168,5 +169,15 @@ class HomeController extends Controller
         $data->save();
 
         return redirect()->back();
+    }
+    public function getBookedDates($venue_id)
+    {
+        $bookedDates = DB::table('bookings')
+            ->where('venue_id', $venue_id)
+            ->whereIn('booking_status', ['approved', 'pending'])
+            ->pluck('booking_start_date')
+            ->toArray();
+
+        return response()->json(['bookedDates' => $bookedDates]);
     }
 }

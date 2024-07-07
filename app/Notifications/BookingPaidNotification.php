@@ -49,6 +49,7 @@ class BookingPaidNotification extends Notification
             ->line('Booking ID: ' . $this->booking->id)
             ->line('Booker name: ' . $this->booking->booking_name)
             ->line('Booking Payment: ' . $this->booking->booking_total)
-            ->line('Thank you for using our application!');
+            ->line('Thank you for using our application!')
+            ->salutation('Regards, CEVERUS');
     }
 }

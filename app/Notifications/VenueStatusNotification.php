@@ -30,7 +30,8 @@ class VenueStatusNotification extends Notification
     {
         $message = (new MailMessage)
             ->subject('Venue Status Update')
-            ->line('Your venue "' . $this->venue->venue_title . '" has been ' . $this->status . ' by the admin.');
+            ->line('Your venue "' . $this->venue->venue_title . '" has been ' . $this->status . ' by the admin.')
+            ->salutation('Regards, CEVERUS');
 
         if ($this->status == 'rejected') {
             $message->line('Reason for rejection: ' . $this->venue->venue_reason);

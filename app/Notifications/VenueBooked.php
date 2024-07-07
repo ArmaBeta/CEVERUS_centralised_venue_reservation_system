@@ -55,7 +55,8 @@ class VenueBooked extends Notification
             ->line('End Date: ' . $this->booking->booking_end_date)
             ->line('Purpose: ' . $this->booking->booking_purpose)
             ->line('Date: ' . now()->format('Y-m-d H:i:s'))
-            ->line('Thank you for using our application!');
+            ->line('Thank you for using our application!')
+            ->salutation('Regards, CEVERUS');
     }
 
     /**

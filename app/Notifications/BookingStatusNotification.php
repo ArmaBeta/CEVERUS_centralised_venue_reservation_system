@@ -48,6 +48,7 @@ class BookingStatusNotification extends Notification
             ->subject('Booking Status Update')
             ->greeting('Hello ' . $this->booking->booking_name . ',')
             ->line('Your booking for ' . optional($this->booking->venue)->venue_title . ' has been ' . $this->status . '.')
-            ->line('Thank you for using our booking system!');
+            ->line('Thank you for using our booking system!')
+            ->salutation('Regards, CEVERUS');
     }
 }
