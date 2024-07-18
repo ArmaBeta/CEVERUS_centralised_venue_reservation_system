@@ -1,31 +1,26 @@
 <section class="banner_main">
     <div id="myCarousel" class="carousel slide banner" data-ride="carousel">
         <ol class="carousel-indicators">
-            @if (isset($venue) && $venue->count() > 0)
-                @foreach ($venue as $index => $item)
-                    <li data-target="#myCarousel" data-slide-to="{{ $index }}"
-                        class="{{ $index == 0 ? 'active' : '' }}"></li>
-                @endforeach
-            @endif
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
         </ol>
         <div class="carousel-inner">
-            @if (isset($venue) && $venue->count() > 0)
-                @foreach ($venue->take(3) as $index => $item)
-                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                        <img class="d-block mx-auto" style="max-height: 600px; width: 100%;"
-                            src="venue/{{ $item->image }}" alt="Slide {{ $index + 1 }}">
-                        <div class="container">
-                        </div>
-                    </div>
-                @endforeach
-            @else
-                <div class="carousel-item active">
-                    <img class="d-block mx-auto" style="max-height: 400px; width: auto;" src="images/default.jpg"
-                        alt="Default slide">
-                    <div class="container">
-                    </div>
-                </div>
-            @endif
+            <div class="carousel-item active">
+                <img class="d-block mx-auto" style="max-height: 600px; width: 100%;" src="venue/1718638447.jpeg"
+                    alt="Slide 1">
+                <div class="container"></div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block mx-auto" style="max-height: 600px; width: 100%;" src="venue/1720350651.webp"
+                    alt="Slide 2">
+                <div class="container"></div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block mx-auto" style="max-height: 600px; width: 100%;" src="venue/1719861971.webp"
+                    alt="Slide 3">
+                <div class="container"></div>
+            </div>
         </div>
         <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -43,7 +38,6 @@
                     <div class="book_room">
                         <h1>CEVERUS</h1>
                         <h6>Centralised Venue Reservation System</h6>
-
                     </div>
                 </div>
             </div>
