@@ -177,7 +177,6 @@ class AdminController extends Controller
     public function view_venue()
     {
         $data = Venue::all();
-
         return view('admin.view_venue', compact('data'));
     }
 
@@ -315,9 +314,10 @@ class AdminController extends Controller
     public function venue_admin_details($id)
     {
         $venue = Venue::find($id);
+        $host = User::find($venue->user_id);
         $reviews = Review::where('venue_id', $id)->get();
 
-        return view('admin.venue_admin_details', compact('venue', 'reviews'));
+        return view('admin.venue_admin_details', compact('venue', 'reviews', 'host'));
     }
 
     public function approve_venue($id)
@@ -418,5 +418,34 @@ class AdminController extends Controller
         $booking = Booking::with('venue')->findOrFail($id); // Fetch the booking based on the ID with the related venue
 
         return view('admin.booking_details', compact('booking'));
+    }
+
+    public function search_venues(Request $request)
+    {
+        $query = $request->input('query');
+        $data = Venue::where('venue_title', 'LIKE', "%{$query}%")
+            // ->orWhere('venue_town', 'LIKE', "%{$query}%")
+            // ->orWhere('venue_city', 'LIKE', "%{$query}%")
+            ->get();
+
+        return view('admin.view_venue', compact('data'));
+    }
+
+    public function search_bookings(Request $request)
+    {
+        $query = $request->input('query');
+        $data = Booking::where('booking_name', 'LIKE', "%{$query}%")->get();
+
+        return view('admin.booking', compact('data'));
+    }
+
+    public function search_users(Request $request)
+    {
+        $query = $request->input('query');
+
+        // Perform search query
+        $data = User::where('name', 'LIKE', "%{$query}%")->get();
+
+        return view('admin.view_users', compact('data'));
     }
 }

@@ -47,7 +47,7 @@
                         <p><strong>Payment Total:</strong> RM {{ $booking->booking_total }}</p>
                         @if ($payment->payment_method == 'Online banking')
                             <p><strong>Bank Name:</strong> {{ $payment->payment_bank_name }}</p>
-                        @elseif ($payment->payment_method == 'Credit Card' || $payment->payment_method == 'Debit Card')
+                        @elseif ($payment->payment_method == 'Credit Card / Debit Card')
                             <p><strong>Card Number:</strong> {{ $payment->payment_card_number }}</p>
                             <p><strong>Cardholder Name:</strong> {{ $payment->payment_cardholder_name }}</p>
                             <p><strong>Expiry Date:</strong> {{ $payment->payment_expiry_date }}</p>

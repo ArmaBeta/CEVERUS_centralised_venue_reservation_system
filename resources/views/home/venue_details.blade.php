@@ -7,110 +7,277 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style type="text/css">
-        label {
-            display: inline-block;
-            width: 200px;
+        /* Custom styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            /* Light grey background */
+            color: #333;
+            /* Dark grey text */
+
+            /* Adjusted to accommodate fixed header */
         }
 
-        input,
-        textarea {
+        .venue_detail {
+            background-color: #fff;
+            /* White background */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            /* Soft shadow effect */
+        }
+
+        .venue_detail h3 {
+            color: #555;
+            /* Dark grey heading */
+            font-size: 28px;
+            margin-top: 0;
+        }
+
+        .venue_detail p {
+            color: #666;
+            /* Grey text */
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .venue_detail img {
             width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .stars {
-            color: #D3D3D3;
-            /* yellow */
+        .booking-form {
+            background-color: #fff;
+            /* White background */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            /* Soft shadow effect */
         }
 
-        .fa-star {
+        .booking-form h1 {
+            color: #555;
+            /* Dark grey heading */
+            font-size: 30px;
+            margin-top: 0;
+        }
+
+        .booking-form label {
+            color: #666;
+            /* Grey text */
+            font-size: 16px;
+        }
+
+        .booking-form input[type="text"],
+        .booking-form input[type="date"],
+        .booking-form textarea,
+        .booking-form input[type="number"],
+        .booking-form select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ddd;
+            /* Light grey border */
+            border-radius: 5px;
+            font-size: 16px;
+            color: #333;
+            /* Dark grey text */
+        }
+
+        .booking-form textarea {
+            resize: vertical;
+        }
+
+        .booking-form input[type="submit"] {
+            background-color: #007bff;
+            /* Bootstrap primary blue */
+            color: #fff;
+            /* White text */
+            border: none;
+            padding: 12px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .booking-form input[type="submit"]:hover {
+            background-color: #0056b3;
+            /* Darker blue on hover */
+        }
+
+        .booking-form .alert {
+            margin-top: 15px;
+        }
+
+        .booking-form .dropdown-menu {
+            width: 100%;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .review-section {
+            background-color: #f9f9f9;
+            /* Light grey background */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            /* Soft shadow effect */
+            margin-top: 30px;
+        }
+
+        .review-section h5 {
+            color: #555;
+            /* Dark grey heading */
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .review-form {
+            margin-bottom: 30px;
+        }
+
+        .review-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .review-form label {
+            font-weight: bold;
+            color: #666;
+            /* Grey text */
+        }
+
+        .review-form .stars {
+            color: #ffd700;
+            /* Gold */
+        }
+
+        .review-form .fa-star {
             cursor: pointer;
             transition: color 0.2s ease-in-out;
+            font-size: 24px;
         }
 
-        .fa-star:hover,
-        .fa-star.checked {
+        .review-form .fa-star:hover,
+        .review-form .fa-star.checked {
             color: #f39c12;
-            /* change color on hover and when checked */
+            /* Orange on hover and checked */
         }
 
-        .dropdown-menu {
+        .review-form textarea {
             width: 100%;
-            /* Adjust the width as needed */
-            max-height: 500px;
-            /* Adjust the height as needed */
-            overflow-y: auto;
-            /* Add scroll if content exceeds the height */
+            padding: 10px;
+            border: 1px solid #ddd;
+            /* Light grey border */
+            border-radius: 5px;
+            font-size: 16px;
+            color: #333;
+            /* Dark grey text */
+            resize: vertical;
         }
 
-        .dropdown-menu .row {
-            margin: 0;
+        .review-form .btn-primary {
+            background-color: #007bff;
+            /* Bootstrap primary blue */
+            color: #fff;
+            /* White text */
+            border: none;
+            padding: 12px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        .dropdown-menu .col-md-4 {
-            padding-left: 5px;
-            padding-right: 5px;
+        .review-form .btn-primary:hover {
+            background-color: #0056b3;
+            /* Darker blue on hover */
+        }
+
+        .review-list {
+            margin-top: 20px;
+        }
+
+        .review-list .list-group-item {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            /* Soft shadow effect */
+            margin-bottom: 10px;
+        }
+
+        .review-list .list-group-item p {
+            margin-bottom: 5px;
+        }
+
+        .review-list .list-group-item .fa-star {
+            color: #ffd700;
+            /* Gold */
+        }
+
+        .review-list .list-group-item .fa-star.checked {
+            color: #f39c12;
+            /* Orange */
         }
     </style>
 </head>
 
 <body class="main-layout">
-    <!-- loader  -->
+    <!-- loader -->
     <div class="loader_bg">
-        <div class="loader"><img src="images/loading.gif" alt="#" /></div>
+        <div class="loader"><img src="images/loading.gif" alt="Loading..." /></div>
     </div>
     <!-- end loader -->
+
     <!-- header -->
     <header>
         @include('home.header')
     </header>
-    <!-- end header inner -->
     <!-- end header -->
-    <div class="our_room">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
+    <br />
+    <br />
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="venue_detail">
+                    <div style="padding: 20px;">
+                        <figure>
+                            <img src="venue/{{ $venue->image }}" alt="{{ $venue->venue_title }}"
+                                class="img-fluid rounded" />
+                        </figure>
+                    </div>
+                    <div>
+                        <h3>{{ $venue->venue_title }}</h3>
+                        <p>{{ $venue->description }}</p>
+                        <h4>Host name:</h4>
+                        <p>{{ $host->name }}</p>
+                        <h4>Size:</h4>
+                        <p>{{ $venue->venue_size }} sqft</p>
+                        <h4>Availability:</h4>
+                        <p>{{ $venue->venue_availability }}</p>
+                        <h4>Address:</h4>
+                        <p>{{ $venue->venue_address }}, {{ $venue->venue_town }}, {{ $venue->venue_postcode }},
+                            {{ $venue->venue_city }}</p>
+                        <h4>Price:</h4>
+                        <p>{{ $venue->price }}</p>
+                    </div>
                 </div>
             </div>
-            <div class="row">
 
-                <div class="col-md-8 ">
-                    <div id="serv_hover" class="venue_detail">
-                        <div style="padding: 20px;">
-                            <figure>
-                                <img style="height: 300px; width: 800px; border: solid black;border-radius:25px"
-                                    src="venue/{{ $venue->image }}" alt="#" />
-                            </figure>
+            <div class="col-md-4">
+                <div class="booking-form">
+                    <h1>Book Venue</h1>
+                    @if (session()->has('message'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session()->get('message') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
                         </div>
-                        <div>
-                            <h3>{{ $venue->venue_title }}</h3>
-                            <p>{{ $venue->description }}</p>
-                            <h4>Size : </h4>
-                            <p>{{ $venue->venue_size }} sqft</p>
-                            <h4>Availability : </h4>
-                            <p>{{ $venue->venue_availability }}</p>
-                            <h4>Address : </h4>
-                            <p>{{ $venue->venue_address }},{{ $venue->venue_town }},{{ $venue->venue_postcode }},
-                                {{ $venue->venue_city }}
-                            </p>
-                            <h4>Price :</h4>
-                            <p>{{ $venue->price }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <h1 style="font-size: 40px!important">Book Venue</h1>
-                    <div>
-                        @if (session()->has('message'))
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                {{ session()->get('message') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                            </div>
-                        @endif
+                    @endif
 
-                    </div>
                     @if (Auth::check())
-                        {{-- Booking Form --}}
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -120,41 +287,46 @@
                                 </ul>
                             </div>
                         @endif
+
                         <form action="{{ url('add_booking', $venue->id) }}" method="POST" id="bookingForm">
                             @csrf
-                            <div>
-                                <label>Name</label>
-                                <input type="text" name="name" value="{{ Auth::user()->name }}">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" name="name" value="{{ Auth::user()->name }}"
+                                    class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="text" name="email" value="{{ Auth::user()->email }}"
+                                    class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="text" name="phone" value="{{ Auth::user()->phone }}"
+                                    class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="startDate">Start Date</label>
+                                <input type="date" name="startDate" id="startDate" class="form-control"
+                                    onchange="updateEndDateMin();" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="endDate">End Date</label>
+                                <input type="date" name="endDate" id="endDate" class="form-control"
+                                    onchange="calculateDaysAndTotal()" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="purpose_booking">Purpose of Booking</label>
+                                <textarea name="purpose_booking" class="form-control" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="no_participants">No of Participants</label>
+                                <input type="number" name="no_participants" class="form-control">
                             </div>
                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                            <div>
-                                <label>Email</label>
-                                <input type="text" name="email" value="{{ Auth::user()->email }}">
-                            </div>
-                            <div>
-                                <label>Phone</label>
-                                <input type="text" name="phone" value="{{ Auth::user()->phone }}">
-                            </div>
-                            <div>
-                                <label>Start Date</label>
-                                <input type="date" name="startDate" id="startDate"
-                                    onchange="updateEndDateMin(); calculateDaysAndTotal()">
-                            </div>
-                            <div>
-                                <label>End Date</label>
-                                <input type="date" name="endDate" id="endDate" onchange="calculateDaysAndTotal()">
-                            </div>
-                            <div>
-                                <label>Purpose of Booking</label>
-                                <textarea name="purpose_booking"></textarea>
-                            </div>
-                            <div>
-                                <label>No of Participants</label>
-                                <input type="number" name="no_participants">
-                            </div>
                             <input type="hidden" name="booking_days" id="booking_days">
                             <input type="hidden" name="booking_total" id="booking_total">
-                            <div style="padding-top: 20px">
+                            <div class="form-group">
                                 <input type="submit" class="btn btn-primary" value="Book Venue">
                             </div>
                         </form>
@@ -166,40 +338,52 @@
                     @endif
                 </div>
             </div>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="bookedDatesDropdown"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Booked Dates
-                </button>
-                <div class="dropdown-menu" aria-labelledby="bookedDatesDropdown">
-                    <div class="row">
-                        @php
-                            $hasBookings = false;
-                        @endphp
-                        @foreach ($bookings as $booking)
-                            @if ($booking->booking_status == 'approved' || $booking->booking_status == 'pending')
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-">
+            <div class="col-md-8">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="bookedDatesDropdown"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Booked Dates
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="bookedDatesDropdown">
+                        <div class="row">
+                            @php
+                                $hasBookings = false;
+                            @endphp
+                            @foreach ($bookings as $booking)
                                 @php
-                                    $hasBookings = true;
+                                    $payment = App\Models\Payment::where('booking_id', $booking->id)->first();
+                                    $paymentStatus = $payment ? $payment->payment_status : null;
                                 @endphp
-                                <div class="col-md-4 mb-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p class="card-text">
-                                                <strong>Start Date:</strong>
-                                                {{ date('F j, Y', strtotime($booking->booking_start_date)) }} <br>
-                                                <strong>End Date:</strong>
-                                                {{ date('F j, Y', strtotime($booking->booking_end_date)) }}
-                                            </p>
+
+                                @if ($booking->booking_status == 'approved' && $paymentStatus == 'paid')
+                                    @php
+                                        $hasBookings = true;
+                                    @endphp
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <p class="card-text">
+                                                    <strong>Start Date:</strong>
+                                                    {{ date('F j, Y', strtotime($booking->booking_start_date)) }} <br>
+                                                    <strong>End Date:</strong>
+                                                    {{ date('F j, Y', strtotime($booking->booking_end_date)) }}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
+                                @endif
+                            @endforeach
+
+                            @if (!$hasBookings)
+                                <div class="col-12 text-center">
+                                    <p class="card-text">No Confirmed Bookings Made</p>
                                 </div>
                             @endif
-                        @endforeach
-                        @if (!$hasBookings)
-                            <div class="col-12 text-center">
-                                <p class="card-text">No Bookings Made</p>
-                            </div>
-                        @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -208,59 +392,45 @@
     <div class="container mt-5">
         <div class="row justify-content">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Leave a Review</h5>
-                        <label>{{ Auth::check() ? Auth::user()->name : 'Guest' }}</label>
-                        <!-- Review Form -->
-                        <form action="{{ url('add_review') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="username"
-                                value="{{ Auth::check() ? Auth::user()->name : '' }}">
-                            <input type="hidden" name="venue_id" value="{{ $venue->id }}">
-                            <input type="hidden" name="user_id"
-                                value="{{ Auth::check() ? Auth::user()->id : '' }}">
+                <div class="review-section">
+                    <h5 class="mb-4">Leave a Review</h5>
+                    <form action="{{ url('add_review') }}" method="POST" class="review-form">
+                        @csrf
+                        <input type="hidden" name="username" value="{{ Auth::check() ? Auth::user()->name : '' }}">
+                        <input type="hidden" name="venue_id" value="{{ $venue->id }}">
+                        <input type="hidden" name="user_id" value="{{ Auth::check() ? Auth::user()->id : '' }}">
 
-                            <!-- Rating stars -->
-                            <div class="form-group">
-                                <label for="rating">Rating:</label>
-                                <div class="stars" id="rating">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        <span class="fa fa-star" data-index="{{ $i }}"></span>
-                                    @endfor
-                                    <input type="hidden" name="review_rating" id="rating_value" value="0">
-                                </div>
+                        <div class="form-group">
+                            <label for="rating">Rating:</label>
+                            <div class="stars" id="rating">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <span class="fa fa-star" data-index="{{ $i }}"></span>
+                                @endfor
+                                <input type="hidden" name="review_rating" id="rating_value" value="0">
                             </div>
+                        </div>
 
-                            <!-- Feedback/Review -->
-                            <div class="form-group">
-                                <label for="feedback">Feedback/Review:</label>
-                                <textarea class="form-control" id="feedback" name="review_feedback" rows="3"
-                                    placeholder="Enter your feedback"></textarea>
-                            </div>
+                        <div class="form-group">
+                            <label for="review_feedback">Feedback/Review:</label>
+                            <textarea class="form-control" id="review_feedback" name="review_feedback" rows="3"
+                                placeholder="Enter your feedback"></textarea>
+                        </div>
 
-                            <!-- Submit button -->
-                            <button type="submit" class="btn btn-primary">Submit Review</button>
-                        </form>
-                    </div>
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                    </form>
                 </div>
-            </div>
-        </div>
 
-        <!-- Reviews Section -->
-        <div class="row mt-5">
-            <h3>Reviews</h3>
-            @if ($reviews->isEmpty())
-                <p>No reviews yet.</p>
-            @else
-                <ul class="list-group">
-                    @foreach ($reviews as $review)
-                        <div class="row mt-5">
-                            <div class="col-md-8">
+                <div class="review-list mt-5">
+                    <h3>Reviews</h3>
+                    @if ($reviews->isEmpty())
+                        <p>No reviews yet.</p>
+                    @else
+                        <ul class="list-group">
+                            @foreach ($reviews as $review)
                                 <li class="list-group-item">
                                     <div>
-                                        <p class="mb-1"><strong>{{ $review->username }}</strong></p>
-                                        <p class="mb-1">Rating:
+                                        <p><strong>{{ $review->username }}</strong></p>
+                                        <p>Rating:
                                             @for ($i = 1; $i <= 5; $i++)
                                                 @if ($i <= $review->review_rating)
                                                     <span class="fa fa-star checked"></span>
@@ -272,11 +442,11 @@
                                         <p>{{ $review->review_feedback }}</p>
                                     </div>
                                 </li>
-                            </div>
-                        </div>
-                    @endforeach
-                </ul>
-            @endif
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 
@@ -291,27 +461,17 @@
 
     <script>
         // Function to update min date for end date input
+        document.addEventListener('DOMContentLoaded', function() {
+            var today = new Date();
+            var formattedDate = today.toISOString().split('T')[0];
+            document.getElementById('startDate').min = formattedDate;
+        });
+
         function updateEndDateMin() {
             var startDate = document.getElementById('startDate').value;
             document.getElementById('endDate').min = startDate;
         }
-        $(function() {
-            var dtToday = new Date();
 
-            var month = dtToday.getMonth() + 1;
-            var day = dtToday.getDate();
-            var year = dtToday.getFullYear();
-
-            if (month < 10)
-                month = '0' + month.toString();
-
-            if (day < 10)
-                day = '0' + day.toString();
-
-            var maxDate = year + '-' + month + '-' + day;
-            $('#startDate').attr('min', maxDate);
-            $('#endDate').attr('min', maxDate);
-        });
         // Function to calculate booking days and total price
         function calculateDaysAndTotal() {
             var startDate = document.getElementById('startDate').value;
@@ -354,6 +514,7 @@
             });
         });
     </script>
+
     @include('home.footer')
 </body>
 

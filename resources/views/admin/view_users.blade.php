@@ -22,7 +22,7 @@
             <div class="container-fluid">
                 <div class="block margin-bottom-sm">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h2 class="title mb-0"><strong>Bookings</strong></h2>
+                        <h2 class="title mb-0"><strong>Users</strong></h2>
 
                         <div class="btn-group">
                             @if (Auth::user()->name == 'Admin')
@@ -34,6 +34,13 @@
                             <button type="button" class="btn btn-light filter-btn" data-status="host">Hosts</button>
                             <button type="button" class="btn btn-light filter-btn" data-status="admin">Admins</button>
                         </div>
+                        {{-- Search Form --}}
+                        <form action="{{ url('search_users') }}" method="GET" class="form-inline my-2 my-lg-0">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search by name"
+                                aria-label="Search" name="query">
+                            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                        {{-- End Search Form --}}
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped bookings-table"

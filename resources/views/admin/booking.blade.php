@@ -35,6 +35,16 @@
                             <button type="button" class="btn btn-light filter-btn"
                                 data-status="rejected">Rejected</button>
                         </div>
+                        <form action="{{ route('admin.search_bookings') }}" method="GET" class="mb-3">
+                            <div class="input-group">
+                                <input type="text" name="query" class="form-control" placeholder="Search by name"
+                                    aria-label="Search" aria-describedby="search-button">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="submit"
+                                        id="search-button">Search</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped bookings-table"
@@ -73,6 +83,8 @@
                                                     <span style="color: red;">Rejected</span>
                                                 @elseif ($booking->booking_status == 'pending')
                                                     <span style="color: rgb(0, 153, 255);">Pending</span>
+                                                @elseif ($booking->booking_status == 'cancelled')
+                                                    <span style="color: #C78C06;">Cancelled</span>
                                                 @endif
                                             </td>
                                             <td>
@@ -97,7 +109,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if ($booking->booking_status != 'rejected' && $booking->booking_status != 'approved')
+                                                @if ($booking->booking_status == 'pending')
                                                     <div class="btn-group">
                                                         <a class="btn btn-success"
                                                             href="{{ url('approve_book', $booking->id) }}">Approve</a>
@@ -143,7 +155,10 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                @elseif ($booking->booking_status == 'rejected' || $booking->booking_status == 'approved')
+                                                @elseif (
+                                                    $booking->booking_status == 'rejected' ||
+                                                        $booking->booking_status == 'approved' ||
+                                                        $booking->booking_status == 'cancelled')
                                                     <div class="btn-group">
                                                         <a class="btn " style="color: white">Status
                                                             Updated</a>

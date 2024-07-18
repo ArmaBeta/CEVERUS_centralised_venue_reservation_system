@@ -84,11 +84,7 @@
                         </div>
 
                         <div>
-                            @if ($data->venue_status == 'reject')
-                                <input type="hidden" name="venue_status" value = "pending">
-                            @else
-                                <input type="hidden" name="venue_status" value = "{{ $data->venue_status }}">
-                            @endif
+                            <input type="hidden" name="venue_status" value = "updated">
                         </div>
 
                         <div class="div_deg">

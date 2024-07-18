@@ -37,6 +37,8 @@
                                     style="height: 200px; width: 100%; object-fit: cover; border-radius: 15px 15px 0 0;">
                             </figure>
                         </div>
+                        <h4>Host name:</h4>
+                        <p>{{ $host->name }}</p>
                         <div>
                             <h3>{{ $venue->venue_title }}</h3>
                             <p>{{ $venue->description }}</p>
@@ -62,7 +64,7 @@
                         <p>No reviews yet.</p>
                     @else
                         <ul class="list-group" ">
-                                @foreach ($reviews as $review)
+                                  @foreach ($reviews as $review)
                             <li class="list-group-item" style="background-color: #313439">
                                 <div>
                                     <p class="mb-1"><strong>{{ $review->username }}</strong></p>

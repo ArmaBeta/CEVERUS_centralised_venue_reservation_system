@@ -51,7 +51,10 @@
                         <p><strong>Total Payment:</strong> {{ $booking->booking_total }}</p>
                         <p><strong>Booking Status:</strong> {{ $booking->booking_status }}</p>
                         @if ($booking->booking_status == 'rejected')
-                            <p><strong>Reason of rejection:</strong> {{ $booking->booking_reason }}</p>
+                            <p><strong>Reason of rejection :</strong> {{ $booking->booking_reason }}</p>
+                        @endif
+                        @if ($booking->booking_status == 'cancelled')
+                            <p><strong>Reason of cancellation :</strong> {{ $booking->booking_reason }}</p>
                         @endif
                     </div>
                     <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>

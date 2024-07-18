@@ -21,26 +21,23 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarsExample04">
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
+                            <li class="nav-item {{ request()->is('/') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ url('/') }}">Home</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="about.html">About</a>
-                            </li>
-                            <li class="nav-item">
+                            <li class="nav-item {{ request()->is('all_venues') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ url('all_venues') }}">Venues</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item {{ request()->is('contact_us') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ url('contact_us') }}">Contact Us</a>
                             </li>
 
                             @auth
-                                <li class="nav-item">
+                                <li class="nav-item {{ request()->is('my_bookings') ? 'active' : '' }}">
                                     <a class="nav-link" href="{{ url('my_bookings') }}">My Bookings</a>
                                 </li>
                             @endauth
 
-                            <li class="nav-item">
+                            <li class="nav-item {{ request()->is('register_host') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ url('register_host') }}">Join as a Host</a>
                             </li>
 

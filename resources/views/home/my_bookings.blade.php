@@ -61,6 +61,10 @@
             color: rgb(0, 153, 255);
         }
 
+        .status-cancelled {
+            color: #C78C06;
+        }
+
         .payment-field {
             display: none;
         }
@@ -123,6 +127,7 @@
                         <th>Status</th>
                         <th>Image</th>
                         <th>Payment</th>
+                        <th>Cancel Booking</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -142,6 +147,8 @@
                                         <span class="status-rejected">Rejected</span>
                                     @elseif ($booking->booking_status == 'pending')
                                         <span class="status-pending">Pending</span>
+                                    @elseif ($booking->booking_status == 'cancelled')
+                                        <span class="status-cancelled">Cancelled</span>
                                     @endif
                                 </td>
                                 <td>
@@ -154,8 +161,11 @@
                                 <td>
                                     @php
                                         $payment = App\Models\Payment::where('booking_id', $booking->id)->first();
+                                        $currentDate = now()->toDateString();
                                     @endphp
-                                    @if ($payment && $payment->payment_status == 'paid')
+                                    @if ($booking->booking_start_date <= $currentDate && (!$payment || $payment->payment_status != 'paid'))
+                                        <span class="btn btn-danger">Late Payment</span>
+                                    @elseif ($payment && $payment->payment_status == 'paid')
                                         <span class="btn btn-success">Payment completed</span>
                                     @elseif ($booking->booking_status == 'approved')
                                         <button class="btn btn-success" data-bs-toggle="modal"
@@ -168,10 +178,51 @@
                                         <a class="btn btn-danger" style="color: white">Reason</a>
                                         <br />
                                         <span> {{ $booking->booking_reason }}</span>
+                                    @elseif ($booking->booking_status == 'cancelled')
+                                        <a class="btn btn-warning" style="color: white">Booking Cancelled</a>
+                                        <br />
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($booking->booking_status == 'pending' || (!$payment && $booking->booking_status == 'approved'))
+                                        <!-- Button to trigger cancellation modal -->
+                                        <button class="btn btn-warning" data-bs-toggle="modal"
+                                            data-bs-target="#cancelModal{{ $booking->id }}">
+                                            Cancel Booking
+                                        </button>
+
+                                        <!-- Modal for cancellation -->
+                                        <div class="modal fade" id="cancelModal{{ $booking->id }}" tabindex="-1"
+                                            aria-labelledby="cancelModalLabel{{ $booking->id }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title"
+                                                            id="cancelModalLabel{{ $booking->id }}">Cancel Booking
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form
+                                                            action="{{ url('cancel_booking', ['id' => $booking->id]) }}"
+                                                            method="GET">
+                                                            @csrf
+                                                            <div class="mb-3">
+                                                                <label for="reason" class="form-label">Reason for
+                                                                    Cancellation</label>
+                                                                <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+                                                            </div>
+                                                            <button type="submit" class="btn btn-danger">Confirm
+                                                                Cancellation</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @endif
                                 </td>
                             </tr>
-
                             <!-- Payment Modal for Each Booking -->
                             <div class="modal fade" id="paymentModal{{ $booking->id }}" tabindex="-1"
                                 aria-labelledby="paymentModalLabel{{ $booking->id }}" aria-hidden="true">
@@ -209,8 +260,10 @@
                                                 </div>
                                                 <div class="mb-3 payment-field"
                                                     id="bank-name-field{{ $booking->id }}">
-                                                    <label for="payment_bank_name" class="form-label">Bank Name</label>
-                                                    <input type="text" class="form-control" name="payment_bank_name">
+                                                    <label for="payment_bank_name" class="form-label">Bank
+                                                        Name</label>
+                                                    <input type="text" class="form-control"
+                                                        name="payment_bank_name">
                                                 </div>
                                                 <div class="mb-3 payment-field"
                                                     id="card-number-field{{ $booking->id }}">

@@ -6,6 +6,9 @@
 </head>
 
 <body>
+    @php
+        $data = $data->sortByDesc('created_at');
+    @endphp
     {{-- Header Section --}}
     @include('admin.header')
     {{-- Header Section End --}}
@@ -16,6 +19,7 @@
     <div class="page-content">
         <div class="page-header">
             <div class="container-fluid">
+                <h2 class="title mb-0"><strong>All Messages</strong></h2>
             </div>
             <table class="table table-striped" style="border: 3px solid;text-align: center; width:100%;">
                 <tr style="border: 3px solid">

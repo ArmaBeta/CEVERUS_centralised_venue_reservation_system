@@ -22,6 +22,7 @@
 </head>
 
 <body>
+
     {{-- Header Section --}}
     @include('admin.header')
     {{-- Header Section End --}}

@@ -18,6 +18,15 @@
 
             padding-top: 40px;
         }
+
+        input {
+            width: 500px;
+        }
+
+        textarea {
+            width: 500px;
+            height: 100px;
+        }
     </style>
 </head>
 
@@ -38,43 +47,43 @@
                         @csrf
                         <div class="div_deg">
                             <label>Venue Title</label>
-                            <input type="text" name="title">
+                            <input type="text" name="title" required>
                         </div>
                         <div class="div_deg">
                             <label>Upload Image</label>
-                            <input type="file" name="image">
+                            <input type="file" name="image" required>
                         </div>
                         <div class="div_deg">
                             <label>Venue Address</label>
-                            <input type="text" name="address">
+                            <input type="text" name="address" required>
                         </div>
                         <div class="div_deg">
                             <label>Venue Town</label>
-                            <input type="text" name="town">
+                            <input type="text" name="town" required>
                         </div>
                         <div class="div_deg">
                             <label>Venue Postcode</label>
-                            <input type="text" name="postcode">
+                            <input type="text" name="postcode" required>
                         </div>
                         <div class="div_deg">
                             <label>Venue City</label>
-                            <input type="text" name="city">
+                            <input type="text" name="city" required>
                         </div>
                         <div class="div_deg">
                             <label>Venue Size (sqft)</label>
-                            <input type="number" step=0.00 placeholder="0.00" name="size">
+                            <input type="number" step="0.01" placeholder="0.00" name="size" required>
                         </div>
                         <div class="div_deg">
                             <label>Venue Availability</label>
-                            <textarea name="availability"></textarea>
+                            <textarea name="availability" required></textarea>
                         </div>
                         <div class="div_deg">
                             <label>Venue Description</label>
-                            <textarea name="description"></textarea>
+                            <textarea name="description" required></textarea>
                         </div>
                         <div class="div_deg">
                             <label>Venue Price</label>
-                            <input type="number" name="price">
+                            <input type="number" name="price" required>
                         </div>
                         <div>
                             <input type="hidden" name="venue_status" value="pending">
@@ -84,6 +93,7 @@
                             <input class="btn btn-primary" type="submit" value="Add venue">
                         </div>
                     </form>
+
                 </div>
 
 

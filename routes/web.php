@@ -27,6 +27,8 @@ route::post('/add_venue', [AdminController::class, 'add_venue'])->middleware(['a
 Route::get('/view_venue', [AdminController::class, 'view_venue'])->name('admin.view_venue')->middleware(['auth', 'admin']);
 
 
+
+
 route::get('/venue_delete/{id}', [AdminController::class, 'venue_delete'])->middleware(['auth', 'admin']);
 
 route::get('/venue_update/{id}', [AdminController::class, 'venue_update'])->middleware(['auth', 'admin']);
@@ -42,6 +44,8 @@ route::get('/bookings', [AdminController::class, 'bookings'])->middleware(['auth
 route::get('/approve_book/{id}', [AdminController::class, 'approve_book'])->middleware(['auth', 'admin']);
 
 route::get('/reject_book/{id}', [AdminController::class, 'reject_book'])->middleware(['auth', 'admin']);
+
+route::get('/cancel_book/{id}', [HomeController::class, 'cancel_book']);
 
 route::get('/approve_venue/{id}', [AdminController::class, 'approve_venue'])->middleware(['auth', 'admin']);
 
@@ -80,3 +84,13 @@ route::get('/delete_admin/{id}', [AdminController::class, 'delete_admin'])->midd
 Route::get('/payment_details/{id}', [AdminController::class, 'payment_details'])->middleware(['auth', 'admin']);
 
 Route::get('/booking_details/{id}', [AdminController::class, 'booking_details'])->middleware(['auth', 'admin']);
+
+Route::get('/all_venues', [HomeController::class, 'all_venues']);
+
+Route::get('/search_venues', [AdminController::class, 'search_venues'])->middleware(['auth', 'admin']);
+
+Route::get('/search-bookings', [AdminController::class, 'search_bookings'])->name('admin.search_bookings')->middleware(['auth', 'admin']);
+
+Route::get('/search_users', [AdminController::class, 'search_users'])->middleware(['auth', 'admin']);
+
+Route::get('/cancel_booking/{id}', [HomeController::class, 'cancelBooking']);

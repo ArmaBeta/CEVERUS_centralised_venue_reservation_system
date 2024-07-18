@@ -44,11 +44,21 @@ class BookingStatusNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        $mailMessage = (new MailMessage)
             ->subject('Booking Status Update')
-            ->greeting('Hello ' . $this->booking->booking_name . ',')
-            ->line('Your booking for ' . optional($this->booking->venue)->venue_title . ' has been ' . $this->status . '.')
-            ->line('Thank you for using our booking system!')
+            ->greeting('Hello ' . $this->booking->booking_name . ',');
+
+        if ($this->status == 'rejected') {
+            $mailMessage->line('Your booking for ' . optional($this->booking->venue)->venue_title . ' has been ' . $this->status . '.')
+                ->line('Reason: ' . $this->booking->booking_reason);
+        } else {
+            $mailMessage->line('Your booking for ' . optional($this->booking->venue)->venue_title . ' has been ' . $this->status . '.')
+                ->line('Do not forget to pay before your Starting date or your Booking will be denied : ' . $this->booking->booking_start_date . '.');
+        }
+
+        $mailMessage->line('Thank you for using our booking system!')
             ->salutation('Regards, CEVERUS');
+
+        return $mailMessage;
     }
 }
